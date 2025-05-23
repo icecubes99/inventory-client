@@ -16,18 +16,11 @@ export interface User {
 }
 
 export interface LoginResponse {
-  access_token: string;
-  refresh_token: string;
   user: User;
 }
 
-export interface RefreshTokenDTO {
-  refreshToken: string;
-}
-
 export interface RefreshTokenResponse {
-  access_token: string;
-  refresh_token: string;
+  message: string;
 }
 
 export interface LogoutResponse {
@@ -65,16 +58,13 @@ export const loginUser = async (
   }
 };
 
-export const refreshToken = async (
-  refreshTokenDto: RefreshTokenDTO
-): Promise<RefreshTokenResponse> => {
+export const refreshToken = async (): Promise<RefreshTokenResponse> => {
   try {
     const response = await fetch(`${BASE_URL}${AUTH_URI}/refresh`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(refreshTokenDto),
       credentials: "include",
     });
 

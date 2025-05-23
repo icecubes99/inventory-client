@@ -4,7 +4,6 @@ import {
   loginUser,
   LogoutResponse,
   logoutUser,
-  RefreshTokenDTO,
   RefreshTokenResponse,
   refreshToken,
 } from "../services/authService";
@@ -37,11 +36,11 @@ export const useRefreshToken = (
   mutationOptions?: UseMutationOptions<
     RefreshTokenResponse,
     RefreshTokenError,
-    RefreshTokenDTO
+    void
   >
 ) =>
   useMutation({
-    mutationFn: (refreshTokenDto) => refreshToken(refreshTokenDto),
+    mutationFn: () => refreshToken(),
     ...mutationOptions,
   });
 
