@@ -15,10 +15,9 @@ import { GalleryVerticalEnd } from "lucide-react"
 const Page = () => {
     const router = useRouter()
     const { mutate: loginUser } = useLoginUser({
-        onSuccess: (data) => {
-            localStorage.setItem("token", data.access_token)
+        onSuccess: () => {
             toast.success("Login Successful")
-            router.push("/")
+            router.push("/home")
         },
         onError: (error) => {
             const errorMessage = error.message || "Login failed. Please try again."

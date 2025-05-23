@@ -6,6 +6,7 @@ import {
 } from "../mutations/authMutations";
 import { LoginDTO, User } from "../services/authService";
 import { useState, useEffect } from "react";
+import { BASE_URL } from "../../config";
 
 interface SessionData {
   user: User;
@@ -14,21 +15,27 @@ interface SessionData {
 export const useAuth = () => {
   const queryClient = useQueryClient();
   const [user, setUser] = useState<User | null>(null);
+  const [isSessionLoading, setIsSessionLoading] = useState(true);
 
   // Check for existing session on mount
   useEffect(() => {
     const checkSession = async () => {
+      setIsSessionLoading(true);
       try {
-        // You can implement a session check endpoint that validates the httpOnly cookie
-        const response = await fetch("/auth/session", {
-          credentials: "include", // Important for cookies
+        const response = await fetch(`${BASE_URL}/auth/session`, {
+          credentials: "include",
         });
         if (response.ok) {
           const data = (await response.json()) as SessionData;
           setUser(data.user);
+        } else {
+          setUser(null);
         }
       } catch (error) {
         console.error("Session check failed:", error);
+        setUser(null);
+      } finally {
+        setIsSessionLoading(false);
       }
     };
 
@@ -71,6 +78,7 @@ export const useAuth = () => {
     user,
     isAuthenticated: !!user,
     isLoading:
+      isSessionLoading ||
       loginMutation.isPending ||
       logoutMutation.isPending ||
       refreshTokenMutation.isPending,
