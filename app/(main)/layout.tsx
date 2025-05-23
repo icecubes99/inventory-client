@@ -1,3 +1,4 @@
+import Navbar from "@/components/organisms/nav-bar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,11 +13,12 @@ export default function MainLayout({
 }>) {
     return (
 
-        <body
+        <div
             className={`antialiased`}
         >
+            <Navbar />
             {children}
-        </body>
+        </div>
 
     );
 }
